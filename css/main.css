@@ -1,0 +1,25 @@
+#copter{
+  background: black;
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin-top: -50px;
+  margin-left: -50px;
+  position: absolute;
+}
+#copter.active{
+  background: green;
+}
+
+#copter-outline{
+  background: white;
+  border: 2px solid black;
+  width: 100px;
+  height: 100px;
+  margin-top: -50px;
+  margin-left: -50px;
+  position: absolute;
+  box-sizing: border-box;
+  top: 50%;
+  left: 50%;
+}
