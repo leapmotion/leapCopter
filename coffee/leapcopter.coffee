@@ -2,6 +2,7 @@ arDrone = require('ar-drone');
 
 controller = new Leap.Controller()
 controller.connect()
+controller.use 'recenterCoordinates'
 controller.use 'handHolding'
 controller.use 'handActive'
 controller.use 'handEntry'
@@ -77,7 +78,8 @@ controller.on 'handActive', ->
 controller.on 'handInactive', ->
   console.log 'hand inactive'
 
-controller.on 'handActive', _.throttle ->
+controller.on 'handActive', _.throttle (hand)->
+    hand.frame.recenterCoordinates(hand.stabilizedPalmPosition)
     parrot.takeOff()
   , 2000
 
@@ -94,4 +96,9 @@ controller.on 'deviceDisconnected', ->
 
 controller.on 'frame', (frame)->
   if hand = frame.hands[0]
-    parrot.setSpeed(hand.pitch() - 0.2, hand.roll())
+    parrot.setSpeed(
+#      hand.pitch() - 0.2 +
+      hand.palmPosition[2] / 100,
+#    , hand.roll() +
+      -hand.palmPosition[0] / 100
+    )
